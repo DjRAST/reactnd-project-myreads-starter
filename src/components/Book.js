@@ -29,12 +29,14 @@ class Book extends Component {
             backgroundImage: `url("${imageUrl}")`,
           }}></div>
           <div className="book-shelf-changer">
-            <select onChange={(event) => this.props.onShelfSelected(event.target.value)}>
+            <select
+              onChange={(event) => this.props.onShelfSelected(event.target.value)}
+              value={inShelf}
+            >
               <option value="move" disabled>Move to...</option>
               {availableShelves.map((shelfConfig) => (
                 <option
                   key={shelfConfig.value}
-                  selected={shelfConfig.value === inShelf}
                   value={shelfConfig.value}>
                   {shelfConfig.name}
                 </option>
