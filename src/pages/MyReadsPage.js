@@ -18,16 +18,25 @@ class MyReadsPage extends Component {
 
   moveBook = (movedBook, newShelfValue) => {
     BooksAPI.update(movedBook, newShelfValue)
-      .then(() => this.setState((currentState) => ({
-          books: currentState.books.map((book) => {
+      .then(() => this.setState((currState) => {
+        let newBooksArray
+        if (newShelfValue === 'none') {
+          // remove from books array if set to 'none'
+          newBooksArray = [...currState.books].filter((book) => book.id !== movedBook.id)
+        } else {
+          // otherwise update shelf value for moved book
+          newBooksArray = [...currState.books].map((book) => {
             return book.id === movedBook.id ?
               {
                 ...book,
                 shelf: newShelfValue,
               } : book
           })
-        }))
-      )
+        }
+        return {
+          books: newBooksArray
+        }
+      }))
   }
 
   render() {
