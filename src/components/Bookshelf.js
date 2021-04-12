@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import Book, { bookPropTypes } from './Book'
+import Book from './Book'
+
+export const bookshelfPropTypes = {
+  books: PropTypes.arrayOf(PropTypes.shape({
+    authors: PropTypes.arrayOf(PropTypes.string),
+    imageLinks: PropTypes.shape({
+      smallThumbnail: PropTypes.string
+    }),
+    shelfName: PropTypes.string,
+    shelfValue: PropTypes.string,
+  })),
+  shelfName: PropTypes.string,
+};
 
 class Bookshelf extends Component {
   render () {
     const {
-      shelfName,
       books,
+      shelfName,
+      shelfValue,
     } = this.props;
 
     return (
@@ -15,8 +28,13 @@ class Bookshelf extends Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {books.map((book) => (
-              <li>
-                <Book title={book.title} authors={book.authors} imageUrl={book.imageLinks.smallThumbnail} />
+              <li key={book.title}>
+                <Book
+                  authors={book.authors}
+                  imageUrl={book.imageLinks.smallThumbnail}
+                  inShelf={shelfValue}
+                  title={book.title}
+                />
               </li>
             ))}
           </ol>
@@ -26,9 +44,5 @@ class Bookshelf extends Component {
   }
 }
 
-Bookshelf.propTypes = {
-  shelfName: PropTypes.string,
-  books: PropTypes.arrayOf(PropTypes.shape(bookPropTypes))
-};
-
+Bookshelf.propTypes = bookshelfPropTypes;
 export default Bookshelf;

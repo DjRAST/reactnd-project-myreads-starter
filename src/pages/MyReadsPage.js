@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../api/BooksAPI';
 import Bookshelf from '../components/Bookshelf'
+import { availableShelves } from '../config/appConfig';
 
-const shelves = ['currentlyReading', 'wantToRead', 'read'];
 
 class MyReadsPage extends Component {
   state = {
@@ -27,10 +27,12 @@ class MyReadsPage extends Component {
           <h1>MyReads</h1>
         </div>
         <div className="list-books-content">
-          {shelves.map((shelfName) => (
+          {availableShelves.map((shelfConfig) => (
             <Bookshelf
-              books={books.filter((book) => book.shelf === shelfName)}
-              shelfName={shelfName}
+              key={shelfConfig.value}
+              books={books.filter((book) => book.shelf === shelfConfig.value)}
+              shelfName={shelfConfig.name}
+              shelfValue={shelfConfig.value}
             />
           ))}
         </div>
