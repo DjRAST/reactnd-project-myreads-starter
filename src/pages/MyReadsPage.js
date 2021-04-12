@@ -16,6 +16,20 @@ class MyReadsPage extends Component {
     }));
   }
 
+  moveBook = (movedBook, newShelfValue) => {
+    BooksAPI.update(movedBook, newShelfValue)
+      .then(() => this.setState((currentState) => ({
+          books: currentState.books.map((book) => {
+            return book.id === movedBook.id ?
+              {
+                ...book,
+                shelf: newShelfValue,
+              } : book
+          })
+        }))
+      )
+  }
+
   render() {
     const {
       books
@@ -31,6 +45,7 @@ class MyReadsPage extends Component {
             <Bookshelf
               key={shelfConfig.value}
               books={books.filter((book) => book.shelf === shelfConfig.value)}
+              onBookMoved={this.moveBook}
               shelfName={shelfConfig.name}
               shelfValue={shelfConfig.value}
             />

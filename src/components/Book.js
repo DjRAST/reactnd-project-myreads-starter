@@ -7,18 +7,16 @@ export const bookPropTypes = {
   authors: PropTypes.arrayOf(PropTypes.string),
   imageUrl: PropTypes.string,
   inShelf: PropTypes.string,
+  onShelfSelected: PropTypes.func,
   title: PropTypes.string,
 }
 
 class Book extends Component {
-  onShelfSelected (event) {
-    console.log(event.target.value)
-  }
-
   render () {
     const {
       authors,
       imageUrl,
+      inShelf,
       title,
     } = this.props
 
@@ -31,10 +29,15 @@ class Book extends Component {
             backgroundImage: `url("${imageUrl}")`,
           }}></div>
           <div className="book-shelf-changer">
-            <select onChange={this.onShelfSelected}>
+            <select onChange={(event) => this.props.onShelfSelected(event.target.value)}>
               <option value="move" disabled>Move to...</option>
               {availableShelves.map((shelfConfig) => (
-                <option key={shelfConfig.value} value={shelfConfig.value}>{shelfConfig.name}</option>
+                <option
+                  key={shelfConfig.value}
+                  selected={shelfConfig.value === inShelf}
+                  value={shelfConfig.value}>
+                  {shelfConfig.name}
+                </option>
               ))}
               <option value="none">None</option>
             </select>

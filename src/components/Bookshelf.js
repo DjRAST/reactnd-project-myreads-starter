@@ -8,16 +8,18 @@ export const bookshelfPropTypes = {
     imageLinks: PropTypes.shape({
       smallThumbnail: PropTypes.string
     }),
-    shelfName: PropTypes.string,
-    shelfValue: PropTypes.string,
+    title: PropTypes.string,
   })),
+  onBookMoved: PropTypes.func,
   shelfName: PropTypes.string,
+  shelfValue: PropTypes.string,
 };
 
 class Bookshelf extends Component {
   render () {
     const {
       books,
+      onBookMoved,
       shelfName,
       shelfValue,
     } = this.props;
@@ -34,6 +36,7 @@ class Bookshelf extends Component {
                   imageUrl={book.imageLinks.smallThumbnail}
                   inShelf={shelfValue}
                   title={book.title}
+                  onShelfSelected={(newShelfValue) => onBookMoved(book, newShelfValue)}
                 />
               </li>
             ))}
