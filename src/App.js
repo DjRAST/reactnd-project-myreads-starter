@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
 import './App.css'
-import MyReadsPage from './pages/myReads/MyReadsPage'
-import SearchPage from './pages/myReads/SearchPage'
+import MyReadsPage from './pages/MyReadsPage'
+import SearchPage from './pages/SearchPage'
 
 class BooksApp extends Component {
   render() {
