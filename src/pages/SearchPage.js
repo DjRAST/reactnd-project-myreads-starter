@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Book from '../components/Book';
+import { PropTypes } from 'prop-types';
 import * as BooksAPI from '../api/BooksAPI';
+import Book from '../components/Book';
+import { bookshelfPropTypes } from '../components/Bookshelf';
+
+export const searchPagePropTypes = {
+  currentBookshelf: PropTypes.arrayOf(PropTypes.shape(bookshelfPropTypes.books)).isRequired,
+  onBookMoved: PropTypes.func.isRequired,
+};
 
 class SearchPage extends Component {
   state = {
@@ -11,12 +18,24 @@ class SearchPage extends Component {
 
   debounceTimer = null;
 
+  mergeBooks(booksInShelf = [], booksFromSearch = []) {
+    return booksFromSearch.map((bookFromSearch) => {
+      const bookInShelf = booksInShelf.find((bookInShelf) => bookInShelf.id === bookFromSearch.id);
+      return bookInShelf ? bookInShelf : bookFromSearch;
+    });
+  }
+
   lookupBooks = () => {
-    BooksAPI.search(this.state.searchQuery).then((result) => {
+    BooksAPI.search(this.state.searchQuery).then((searchResults) => {
+      const {
+        currentBookshelf,
+      } = this.props;
+
+      // merge results with local shelf data to get correct shelf value
       this.setState({
-        searchBookResults: result,
-      })
-    })
+        searchBookResults: this.mergeBooks(currentBookshelf, searchResults),
+      });
+    });
   };
 
   onSearchQueryChanged = (event) => {
@@ -25,21 +44,8 @@ class SearchPage extends Component {
       searchQuery: newQuery,
     });
 
-    clearTimeout(this.debounceTimer)
-    this.debounceTimer = setTimeout(() => this.lookupBooks(), 400)
-  };
-
-  moveBook = (movedBook, newShelfValue) => {
-    BooksAPI.update(movedBook, newShelfValue)
-      .then(() => this.setState((currState) => ({
-        searchBookResults: [...currState.searchBookResults].map((book) => {
-          return book.id === movedBook.id ?
-            {
-              ...book,
-              shelf: newShelfValue,
-            } : book;
-        }),
-      })));
+    clearTimeout(this.debounceTimer);
+    this.debounceTimer = setTimeout(() => this.lookupBooks(), 400);
   };
 
   render() {
@@ -47,6 +53,13 @@ class SearchPage extends Component {
       searchQuery,
       searchBookResults,
     } = this.state;
+
+    const {
+      onBookMoved,
+      currentBookshelf,
+    } = this.props;
+
+    const mergedBooks = this.mergeBooks(currentBookshelf, searchBookResults);
 
     return (
       <div className="search-books">
@@ -69,14 +82,14 @@ class SearchPage extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {searchBookResults.map((book) => (
+            {mergedBooks.map((book) => (
               <li key={book.id}>
                 <Book
                   authors={book.authors}
                   imageUrl={book.imageLinks.smallThumbnail}
                   inShelf={book.shelf}
                   title={book.title}
-                  onShelfSelected={(newShelfValue) => this.moveBook(book, newShelfValue)}
+                  onShelfSelected={(newShelfValue) => onBookMoved(book, newShelfValue)}
                 />
               </li>
             ))}
@@ -87,4 +100,5 @@ class SearchPage extends Component {
   }
 }
 
+SearchPage.propTypes = searchPagePropTypes;
 export default SearchPage;

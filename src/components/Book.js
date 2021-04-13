@@ -5,20 +5,20 @@ import { availableShelves, availableShelvesValues } from '../config/appConfig';
 
 export const bookPropTypes = {
   authors: PropTypes.arrayOf(PropTypes.string),
-  imageUrl: PropTypes.string,
+  imageUrl: PropTypes.string.isRequired,
   inShelf: PropTypes.string,
-  onShelfSelected: PropTypes.func,
-  title: PropTypes.string,
-}
+  onShelfSelected: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 class Book extends Component {
-  render () {
+  render() {
     const {
       authors = [],
       imageUrl,
       inShelf = availableShelvesValues.NONE,
       title,
-    } = this.props
+    } = this.props;
 
     return (
       <div className="book">
@@ -50,7 +50,7 @@ class Book extends Component {
           <div key={author} className="book-authors">{author}</div>
         ))}
       </div>
-    )
+    );
   }
 }
 

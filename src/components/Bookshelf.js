@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import Book from './Book'
+import Book from './Book';
 
 export const bookshelfPropTypes = {
   books: PropTypes.arrayOf(PropTypes.shape({
     authors: PropTypes.arrayOf(PropTypes.string),
     imageLinks: PropTypes.shape({
-      smallThumbnail: PropTypes.string
+      smallThumbnail: PropTypes.string,
     }),
     title: PropTypes.string,
-  })),
-  onBookMoved: PropTypes.func,
-  shelfName: PropTypes.string,
-  shelfValue: PropTypes.string,
+  })).isRequired,
+  onBookMoved: PropTypes.func.isRequired,
+  shelfName: PropTypes.string.isRequired,
+  shelfValue: PropTypes.string.isRequired,
 };
 
 class Bookshelf extends Component {
-  render () {
+  render() {
     const {
       books,
       onBookMoved,
