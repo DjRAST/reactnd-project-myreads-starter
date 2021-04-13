@@ -36,7 +36,7 @@ class BooksApp extends Component {
   moveBook = (movedBook, newShelfValue) => {
     this.setState({
       isLoading: true,
-    })
+    });
 
     BooksAPI.update(movedBook, newShelfValue)
       .then(() => {
@@ -56,7 +56,7 @@ class BooksApp extends Component {
 
     return (
       <div className="app">
-        {isLoading && <FullScreenLoadingSpinner />}
+        {isLoading && <FullScreenLoadingSpinner/>}
         <Route
           path={['/', '/myReads']}
           exact
