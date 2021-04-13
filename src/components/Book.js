@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { availableShelves } from '../config/appConfig';
+import { availableShelves, availableShelvesValues } from '../config/appConfig';
 
 
 export const bookPropTypes = {
@@ -14,9 +14,9 @@ export const bookPropTypes = {
 class Book extends Component {
   render () {
     const {
-      authors,
+      authors = [],
       imageUrl,
-      inShelf,
+      inShelf = availableShelvesValues.NONE,
       title,
     } = this.props
 
@@ -33,7 +33,7 @@ class Book extends Component {
               onChange={(event) => this.props.onShelfSelected(event.target.value)}
               value={inShelf}
             >
-              <option value="move" disabled>Move to...</option>
+              <option value="move" disabled>Move to shelf...</option>
               {availableShelves.map((shelfConfig) => (
                 <option
                   key={shelfConfig.value}
@@ -41,7 +41,7 @@ class Book extends Component {
                   {shelfConfig.name}
                 </option>
               ))}
-              <option value="none">None</option>
+              <option value={availableShelvesValues.NONE}>None</option>
             </select>
           </div>
         </div>

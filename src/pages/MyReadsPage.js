@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../api/BooksAPI';
 import Bookshelf from '../components/Bookshelf'
-import { availableShelves } from '../config/appConfig';
+import { availableShelves, availableShelvesValues } from '../config/appConfig';
 
 
 class MyReadsPage extends Component {
@@ -20,7 +20,7 @@ class MyReadsPage extends Component {
     BooksAPI.update(movedBook, newShelfValue)
       .then(() => this.setState((currState) => {
         let newBooksArray
-        if (newShelfValue === 'none') {
+        if (newShelfValue === availableShelvesValues.NONE) {
           // remove from books array if set to 'none'
           newBooksArray = [...currState.books].filter((book) => book.id !== movedBook.id)
         } else {
