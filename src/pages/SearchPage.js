@@ -13,11 +13,9 @@ class SearchPage extends Component {
 
   lookupBooks = () => {
     BooksAPI.search(this.state.searchQuery).then((result) => {
-      if (!result.error) {
-        this.setState({
-          searchBookResults: result,
-        })
-      }
+      this.setState({
+        searchBookResults: result,
+      })
     })
   };
 
