@@ -4,6 +4,7 @@ import { PropTypes } from 'prop-types';
 import * as BooksAPI from '../api/BooksAPI';
 import Book from '../components/Book';
 import { bookshelfPropTypes } from '../components/Bookshelf';
+import FullScreenLoadingSpinner from '../components/FullScreenLoadingSpinner';
 
 export const searchPagePropTypes = {
   currentBookshelf: PropTypes.arrayOf(PropTypes.shape(bookshelfPropTypes.books)).isRequired,
@@ -12,6 +13,7 @@ export const searchPagePropTypes = {
 
 class SearchPage extends Component {
   state = {
+    isLoading: false,
     searchQuery: '',
     searchBookResults: [],
   };
@@ -26,6 +28,10 @@ class SearchPage extends Component {
   }
 
   lookupBooks = () => {
+    this.setState({
+      isLoading: true,
+    })
+
     BooksAPI.search(this.state.searchQuery).then((searchResults) => {
       const {
         currentBookshelf,
@@ -33,6 +39,7 @@ class SearchPage extends Component {
 
       // merge results with local shelf data to get correct shelf value
       this.setState({
+        isLoading: false,
         searchBookResults: this.mergeBooks(currentBookshelf, searchResults),
       });
     });
@@ -50,6 +57,7 @@ class SearchPage extends Component {
 
   render() {
     const {
+      isLoading,
       searchQuery,
       searchBookResults,
     } = this.state;
@@ -63,6 +71,7 @@ class SearchPage extends Component {
 
     return (
       <div className="search-books">
+        {isLoading && <FullScreenLoadingSpinner />}
         <div className="search-books-bar">
           <Link to="/myReads">
             <button className="close-search" onClick={() => this.setState({showSearchPage: false})}>Close</button>

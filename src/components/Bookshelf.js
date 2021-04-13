@@ -5,6 +5,7 @@ import Book from './Book';
 export const bookshelfPropTypes = {
   books: PropTypes.arrayOf(PropTypes.shape({
     authors: PropTypes.arrayOf(PropTypes.string),
+    id: PropTypes.string,
     imageLinks: PropTypes.shape({
       smallThumbnail: PropTypes.string,
     }),
@@ -30,7 +31,7 @@ class Bookshelf extends Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {books.map((book) => (
-              <li key={book.title}>
+              <li key={book.id}>
                 <Book
                   authors={book.authors}
                   imageUrl={book.imageLinks.smallThumbnail}

@@ -196,3 +196,20 @@ button:active {
   text-align: center;
   font-size: 0.8em;
 }
+
+.fullscreenContainer {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: 999;
+  background-color: white;
+  opacity: 70%;
+}
+
+.fullscreenLoader {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30vh;
+  width: 500px;
+}
