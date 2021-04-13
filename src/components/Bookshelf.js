@@ -34,7 +34,7 @@ class Bookshelf extends Component {
               <li key={book.id}>
                 <Book
                   authors={book.authors}
-                  imageUrl={book.imageLinks.smallThumbnail}
+                  imageUrl={book.imageLinks && book.imageLinks.smallThumbnail}
                   inShelf={shelfValue}
                   title={book.title}
                   onShelfSelected={(newShelfValue) => onBookMoved(book, newShelfValue)}

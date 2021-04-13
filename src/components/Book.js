@@ -5,7 +5,7 @@ import { availableShelves, availableShelvesValues } from '../config/appConfig';
 
 export const bookPropTypes = {
   authors: PropTypes.arrayOf(PropTypes.string),
-  imageUrl: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
   inShelf: PropTypes.string,
   onShelfSelected: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
@@ -15,7 +15,7 @@ class Book extends Component {
   render() {
     const {
       authors = [],
-      imageUrl,
+      imageUrl = 'placeholder.png',
       inShelf = availableShelvesValues.NONE,
       title,
     } = this.props;
@@ -27,6 +27,9 @@ class Book extends Component {
             width: 128,
             height: 193,
             backgroundImage: `url("${imageUrl}")`,
+            backgroundPosition: 'center',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'none',
           }}></div>
           <div className="book-shelf-changer">
             <select

@@ -90,7 +90,7 @@ class SearchPage extends Component {
               <li key={book.id}>
                 <Book
                   authors={book.authors}
-                  imageUrl={book.imageLinks.smallThumbnail}
+                  imageUrl={book.imageLinks && book.imageLinks.smallThumbnail}
                   inShelf={book.shelf}
                   title={book.title}
                   onShelfSelected={(newShelfValue) => onBookMoved(book, newShelfValue)}

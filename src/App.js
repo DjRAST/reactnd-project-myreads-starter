@@ -12,11 +12,12 @@ class BooksApp extends Component {
     isLoading: true,
   };
 
-  componentDidMount() {
-    BooksAPI.getAll().then((books) => this.setState({
-      currentBookshelf: books,
+  async componentDidMount() {
+    const myBooks = await BooksAPI.getAll();
+    this.setState({
+      currentBookshelf: myBooks,
       isLoading: false,
-    }));
+    });
   }
 
   addBookFromServer(bookId) {
